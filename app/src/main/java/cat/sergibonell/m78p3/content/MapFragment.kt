@@ -1,6 +1,7 @@
 package cat.sergibonell.m78p3.content
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +11,22 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import cat.sergibonell.m78p3.R
 import cat.sergibonell.m78p3.databinding.FragmentMapBinding
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 
 const val REQUEST_CODE_LOCATION = 100
 
-class MapFragment: Fragment(), OnMapReadyCallback {
+class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapLongClickListener {
     lateinit var binding: FragmentMapBinding
+    lateinit var viewModel: MapViewModel
     lateinit var map: GoogleMap
 
     override fun onCreateView(
@@ -28,8 +35,8 @@ class MapFragment: Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMapBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         createMap()
-        enableLocation()
         return binding.root
     }
 
@@ -40,6 +47,9 @@ class MapFragment: Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        setListeners()
+        loadMarkers()
+        enableLocation()
     }
 
     // COPIED CODE
@@ -49,14 +59,13 @@ class MapFragment: Fragment(), OnMapReadyCallback {
             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
+    @SuppressLint("MissingPermission")
     private fun enableLocation(){
         if(!::map.isInitialized) return
-        if(isLocationPermissionGranted()){
+        if(isLocationPermissionGranted())
             map.isMyLocationEnabled = true
-        }
-        else{
+        else
             requestLocationPermission()
-        }
     }
 
     private fun requestLocationPermission(){
@@ -70,6 +79,7 @@ class MapFragment: Fragment(), OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
                                             grantResults: IntArray) {
         when(requestCode){
@@ -84,4 +94,31 @@ class MapFragment: Fragment(), OnMapReadyCallback {
         }
     }
 
+    fun createMarker(coordinates: LatLng){
+        val markerOptions = MarkerOptions().position(coordinates).title("ITB")
+        map.addMarker(markerOptions)
+        viewModel.markerList.add(markerOptions)
+
+        map.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
+            5000, null)
+    }
+
+    fun loadMarkers(){
+        for(marker in viewModel.markerList)
+            map.addMarker(marker)
+    }
+
+    fun setListeners(){
+        map.setOnMapLongClickListener(this)
+        map.setOnInfoWindowClickListener(this)
+    }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        Toast.makeText(context, "Pressed", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onMapLongClick(pos: LatLng) {
+        createMarker(pos)
+    }
 }
