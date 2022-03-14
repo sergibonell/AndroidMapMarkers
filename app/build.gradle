@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -8,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "cat.sergibonell.m78p3"
-        minSdk 21
+        minSdk 24
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -39,6 +41,11 @@ android {
 
 dependencies {
 
+    implementation "androidx.camera:camera-core:1.1.0-beta02"
+    implementation "androidx.camera:camera-camera2:1.1.0-beta02"
+    implementation "androidx.camera:camera-lifecycle:1.1.0-beta02"
+    implementation "androidx.camera:camera-view:1.1.0-beta02"
+    implementation "androidx.camera:camera-extensions:1.1.0-beta02"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"

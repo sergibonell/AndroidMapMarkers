@@ -7,5 +7,28 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="cat.sergibonell.m78p3.content.MapFragment"
-        android:label="MapFragment" />
+        android:label="MapFragment" >
+        <action
+            android:id="@+id/action_mapFragment_to_addMarkerFragment"
+            app:destination="@id/addMarkerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addMarkerFragment"
+        android:name="cat.sergibonell.m78p3.content.AddMarkerFragment"
+        android:label="AddMarkerFragment" >
+        <action
+            android:id="@+id/action_addMarkerFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_addMarkerFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="cat.sergibonell.m78p3.content.CameraFragment"
+        android:label="CameraFragment" >
+        <action
+            android:id="@+id/action_cameraFragment_to_addMarkerFragment"
+            app:destination="@id/addMarkerFragment" />
+    </fragment>
 </navigation>

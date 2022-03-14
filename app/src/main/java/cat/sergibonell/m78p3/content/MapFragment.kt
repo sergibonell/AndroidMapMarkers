@@ -11,7 +11,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import cat.sergibonell.m78p3.R
 import cat.sergibonell.m78p3.databinding.FragmentMapBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -26,7 +29,7 @@ const val REQUEST_CODE_LOCATION = 100
 
 class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapLongClickListener {
     lateinit var binding: FragmentMapBinding
-    lateinit var viewModel: MapViewModel
+    private val viewModel: MapViewModel by activityViewModels()
     lateinit var map: GoogleMap
 
     override fun onCreateView(
@@ -35,7 +38,6 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMapBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         createMap()
         return binding.root
     }
@@ -96,17 +98,26 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
 
     fun createMarker(coordinates: LatLng){
         val markerOptions = MarkerOptions().position(coordinates).title("ITB")
+
         map.addMarker(markerOptions)
-        viewModel.markerList.add(markerOptions)
+        viewModel.markerList.observe(viewLifecycleOwner, Observer { list ->
+            list.add(markerOptions)
+        })
 
         map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
             5000, null)
     }
 
+    fun createCustomMarker(coordinates: LatLng){
+        findNavController().navigate(R.id.action_mapFragment_to_addMarkerFragment)
+    }
+
     fun loadMarkers(){
-        for(marker in viewModel.markerList)
-            map.addMarker(marker)
+        viewModel.markerList.observe(viewLifecycleOwner, Observer { list ->
+            for (marker in list)
+                map.addMarker(marker)
+        })
     }
 
     fun setListeners(){
@@ -119,6 +130,6 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     }
 
     override fun onMapLongClick(pos: LatLng) {
-        createMarker(pos)
+        createCustomMarker(pos)
     }
 }
