@@ -4,9 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/1fa72b730b4952ce3438d121b5f0938e/transformed/jetified-camera-view-1.1.0-beta02/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1fa72b730b4952ce3438d121b5f0938e/transformed/jetified-camera-view-1.1.0-beta02/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1fa72b730b4952ce3438d121b5f0938e/transformed/jetified-camera-view-1.1.0-beta02/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/1fa72b730b4952ce3438d121b5f0938e/transformed/jetified-camera-view-1.1.0-beta02/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1fa72b730b4952ce3438d121b5f0938e/transformed/jetified-camera-view-1.1.0-beta02/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1fa72b730b4952ce3438d121b5f0938e/transformed/jetified-camera-view-1.1.0-beta02/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

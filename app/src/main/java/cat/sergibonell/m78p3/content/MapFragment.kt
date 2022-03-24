@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import cat.sergibonell.m78p3.R
+import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.FragmentMapBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -96,33 +97,38 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         }
     }
 
-    fun createMarker(coordinates: LatLng){
+
+    /*fun createMarker(coordinates: LatLng){
         val markerOptions = MarkerOptions().position(coordinates).title("ITB")
 
         map.addMarker(markerOptions)
         viewModel.markerList.observe(viewLifecycleOwner, Observer { list ->
-            list.add(markerOptions)
+            list.add(PostData("", "", "", coordinates))
         })
 
         map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
             5000, null)
-    }
+    }*/
 
     fun createCustomMarker(coordinates: LatLng){
-        findNavController().navigate(R.id.action_mapFragment_to_addMarkerFragment)
+        val action = MapFragmentDirections.actionMapFragmentToAddMarkerFragment(coordinates)
+        findNavController().navigate(action)
     }
 
     fun loadMarkers(){
-        viewModel.markerList.observe(viewLifecycleOwner, Observer { list ->
-            for (marker in list)
-                map.addMarker(marker)
+        viewModel.markerListLive.observe(this, Observer {
+            for(x in it){
+                val option = MarkerOptions().position(x.position).title(x.title)
+                map.addMarker(option)
+            }
         })
     }
 
     fun setListeners(){
         map.setOnMapLongClickListener(this)
         map.setOnInfoWindowClickListener(this)
+        binding.floatingActionButton.setOnClickListener { findNavController().navigate(R.id.action_mapFragment_to_markerListFragment) }
     }
 
     override fun onInfoWindowClick(marker: Marker) {

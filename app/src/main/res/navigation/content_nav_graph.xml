@@ -11,17 +11,24 @@
         <action
             android:id="@+id/action_mapFragment_to_addMarkerFragment"
             app:destination="@id/addMarkerFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_markerListFragment"
+            app:destination="@id/markerListFragment" />
     </fragment>
     <fragment
         android:id="@+id/addMarkerFragment"
         android:name="cat.sergibonell.m78p3.content.AddMarkerFragment"
         android:label="AddMarkerFragment" >
         <action
-            android:id="@+id/action_addMarkerFragment_to_mapFragment"
-            app:destination="@id/mapFragment" />
-        <action
             android:id="@+id/action_addMarkerFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_addMarkerFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <argument
+            android:name="coords"
+            app:argType="com.google.android.gms.maps.model.LatLng"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -31,4 +38,8 @@
             android:id="@+id/action_cameraFragment_to_addMarkerFragment"
             app:destination="@id/addMarkerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/markerListFragment"
+        android:name="cat.sergibonell.m78p3.content.MarkerListFragment"
+        android:label="MarkerListFragment" />
 </navigation>
