@@ -5,4 +5,4 @@ import com.google.android.gms.maps.model.LatLng
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class PostData(val title: String, val description: String, val photoDirectory: String, val position: LatLng): Parcelable
+data class PostData(val title: String, val description: String, val category: String, val photoDirectory: String, val position: LatLng): Parcelable

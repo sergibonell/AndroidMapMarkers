@@ -118,6 +118,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
 
     fun loadMarkers(){
         viewModel.markerListLive.observe(this, Observer {
+            map.clear()
             for(x in it){
                 val option = MarkerOptions().position(x.position).title(x.title)
                 map.addMarker(option)
