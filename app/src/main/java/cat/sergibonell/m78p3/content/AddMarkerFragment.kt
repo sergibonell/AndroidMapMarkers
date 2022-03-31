@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -31,6 +32,15 @@ class AddMarkerFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.imageButton.setOnClickListener { openCamera() }
         binding.button.setOnClickListener { saveMarker() }
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.category_list,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinner.adapter = adapter
+        }
     }
 
     fun openCamera(){
@@ -40,9 +50,9 @@ class AddMarkerFragment: Fragment() {
     fun saveMarker(){
         val title = binding.editTextTextPersonName.text.toString()
         val description = binding.editTextTextPersonName.text.toString()
+        val category = binding.spinner.selectedItem.toString()
         val position = arguments?.getParcelable<LatLng>("coords")!!
-
-        val data = PostData(title, description, "", position)
+        val data = PostData(title, description, category, "", position)
 
         viewModel.addMarkerList(data)
         findNavController().navigate(R.id.action_addMarkerFragment_to_mapFragment)

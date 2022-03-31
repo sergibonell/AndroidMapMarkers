@@ -3,4 +3,9 @@
     <string name="maps_api_key" templateMergeStrategy="preserve" translatable="false">
        AIzaSyBuGP3kCzhULVH8jxcVXQfGIW990IbhdtY
    </string>
+    <string-array name="category_list">
+        <item>Landscape</item>
+        <item>Monument</item>
+        <item>People</item>
+    </string-array>
 </resources>
