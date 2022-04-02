@@ -13,12 +13,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import cat.sergibonell.m78p3.R
-import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.FragmentMapBinding
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -51,7 +48,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         setListeners()
-        loadMarkers()
+        observeMarkers()
         enableLocation()
     }
 
@@ -65,10 +62,10 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     @SuppressLint("MissingPermission")
     private fun enableLocation(){
         if(!::map.isInitialized) return
+        if(!isLocationPermissionGranted())
+            requestLocationPermission()
         if(isLocationPermissionGranted())
             map.isMyLocationEnabled = true
-        else
-            requestLocationPermission()
     }
 
     private fun requestLocationPermission(){
@@ -97,7 +94,6 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         }
     }
 
-
     /*fun createMarker(coordinates: LatLng){
         val markerOptions = MarkerOptions().position(coordinates).title("ITB")
 
@@ -116,7 +112,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         findNavController().navigate(action)
     }
 
-    fun loadMarkers(){
+    fun observeMarkers(){
         viewModel.markerListLive.observe(this, Observer {
             map.clear()
             for(x in it){

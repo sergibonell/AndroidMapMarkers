@@ -29,16 +29,21 @@ class PostAdapter(postList: ArrayList<PostData>, listener: OnClickListener): Rec
     inner class MainViewHolder(binding: PostViewBinding): RecyclerView.ViewHolder(binding.root) {
         private var titleTextView: TextView
         private var deleteButton: ImageButton
+        private var editButton: ImageButton
 
         init {
             titleTextView = binding.title
             deleteButton = binding.deleteButton
+            editButton = binding.editButton
         }
 
         fun bindData(postData: PostData){
             titleTextView.text = postData.title
             deleteButton.setOnClickListener{
                 clickListener.onClickDelete(postData)
+            }
+            editButton.setOnClickListener {
+                clickListener.onClickEdit(postData)
             }
         }
     }

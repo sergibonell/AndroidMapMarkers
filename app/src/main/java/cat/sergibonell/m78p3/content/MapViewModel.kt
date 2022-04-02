@@ -20,7 +20,7 @@ class MapViewModel: ViewModel() {
         return list
     }
 
-    fun addMarkerList(marker: PostData) {
+    fun addMarker(marker: PostData) {
         val list = getList()
         list.add(marker)
         markerListLive.value = list
@@ -29,6 +29,13 @@ class MapViewModel: ViewModel() {
     fun deleteMarker(post: PostData) {
         val list = getList()
         list.remove(post)
+        markerListLive.value = list
+    }
+
+    fun updateMarker(new: PostData, old: PostData) {
+        val list = getList()
+        list.remove(old)
+        list.add(new)
         markerListLive.value = list
     }
 

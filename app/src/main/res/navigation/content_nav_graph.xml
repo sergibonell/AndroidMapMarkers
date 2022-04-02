@@ -41,5 +41,23 @@
     <fragment
         android:id="@+id/markerListFragment"
         android:name="cat.sergibonell.m78p3.content.MarkerListFragment"
-        android:label="MarkerListFragment" />
+        android:label="MarkerListFragment" >
+        <action
+            android:id="@+id/action_markerListFragment_to_editMarkerFragment"
+            app:destination="@id/editMarkerFragment" />
+        <action
+            android:id="@+id/action_markerListFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editMarkerFragment"
+        android:name="cat.sergibonell.m78p3.content.EditMarkerFragment"
+        android:label="EditMarkerFragment" >
+        <argument
+            android:name="data"
+            app:argType="cat.sergibonell.m78p3.data.PostData" />
+        <action
+            android:id="@+id/action_editMarkerFragment_to_markerListFragment"
+            app:destination="@id/markerListFragment" />
+    </fragment>
 </navigation>
