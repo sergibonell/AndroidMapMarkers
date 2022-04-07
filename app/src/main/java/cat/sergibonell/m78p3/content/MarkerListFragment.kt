@@ -1,6 +1,7 @@
 package cat.sergibonell.m78p3.content
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -13,13 +14,16 @@ import cat.sergibonell.m78p3.OnClickListener
 import cat.sergibonell.m78p3.R
 import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.FragmentMarkerListBinding
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.*
 
 
 class MarkerListFragment: Fragment(), OnClickListener {
     lateinit var binding: FragmentMarkerListBinding
     private val viewModel: MapViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
+    private lateinit var postList: ArrayList<PostData>
+    private lateinit var postAdapter: PostAdapter
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,11 +48,10 @@ class MarkerListFragment: Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.recyclerView
-        setupRecyclerView(viewModel.getList())
+        setupRecyclerView(arrayListOf())
+        postList = arrayListOf<PostData>()
+        eventChangeListener()
 
-        viewModel.markerListLive.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter?.notifyDataSetChanged()
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -74,8 +77,31 @@ class MarkerListFragment: Fragment(), OnClickListener {
     }
 
     fun setupRecyclerView(posts: ArrayList<PostData>){
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = PostAdapter(posts, this)
+        postAdapter = PostAdapter(posts, this)
+        binding.recyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = postAdapter
+        }
+    }
+
+    private fun eventChangeListener() {
+        db.collection("markers").addSnapshotListener(object: EventListener<QuerySnapshot> {
+            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                if(error != null){
+                    Log.e("Firestore error", error.message.toString())
+                    return
+                }
+                for(dc: DocumentChange in value?.documentChanges!!){
+                    if(dc.type == DocumentChange.Type.ADDED){
+                        val newUser = dc.document.toObject(PostData::class.java)
+                        newUser.id = dc.document.id
+                        postList.add(newUser)
+                    }
+                }
+                postAdapter.setUsersList(postList)
+            }
+        })
     }
 
 

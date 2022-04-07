@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
+
 }
 
 android {
@@ -39,8 +40,14 @@ android {
     }
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 dependencies {
 
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "androidx.camera:camera-core:1.1.0-beta02"
     implementation "androidx.camera:camera-camera2:1.1.0-beta02"

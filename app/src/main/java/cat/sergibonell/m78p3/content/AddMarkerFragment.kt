@@ -50,7 +50,7 @@ class AddMarkerFragment: Fragment() {
         val description = binding.descriptionText.text.toString()
         val category = binding.spinner.selectedItem.toString()
         val position = arguments?.getParcelable<LatLng>("coords")!!
-        val data = PostData(title, description, category, "", position)
+        val data = PostData(title=title, description=description, category=category, photoDirectory="", latitude=position.latitude, longitude=position.longitude)
 
         viewModel.addMarker(data)
         findNavController().navigate(R.id.action_addMarkerFragment_to_mapFragment)

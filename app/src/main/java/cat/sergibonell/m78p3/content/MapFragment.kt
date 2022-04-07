@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cat.sergibonell.m78p3.R
+import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.FragmentMapBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -22,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.*
 
 const val REQUEST_CODE_LOCATION = 100
 
@@ -29,6 +32,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     lateinit var binding: FragmentMapBinding
     private val viewModel: MapViewModel by activityViewModels()
     lateinit var map: GoogleMap
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +68,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         if(!::map.isInitialized) return
         if(!isLocationPermissionGranted())
             requestLocationPermission()
-        if(isLocationPermissionGranted())
+        else
             map.isMyLocationEnabled = true
     }
 
@@ -113,11 +117,20 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     }
 
     fun observeMarkers(){
-        viewModel.markerListLive.observe(this, Observer {
-            map.clear()
-            for(x in it){
-                val option = MarkerOptions().position(x.position).title(x.title)
-                map.addMarker(option)
+        db.collection("markers").addSnapshotListener(object: EventListener<QuerySnapshot> {
+            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                if(error != null){
+                    Log.e("Firestore error", error.message.toString())
+                    return
+                }
+                for(dc: DocumentChange in value?.documentChanges!!){
+                    if(dc.type == DocumentChange.Type.ADDED){
+                        val newUser = dc.document.toObject(PostData::class.java)
+                        val position = LatLng(newUser.latitude!!, newUser.longitude!!)
+                        val option = MarkerOptions().position(position).title(newUser.title)
+                        map.addMarker(option)
+                    }
+                }
             }
         })
     }

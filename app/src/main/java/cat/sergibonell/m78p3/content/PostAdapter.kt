@@ -10,7 +10,7 @@ import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.PostViewBinding
 
 class PostAdapter(postList: ArrayList<PostData>, listener: OnClickListener): RecyclerView.Adapter<PostAdapter.MainViewHolder>() {
-    private val posts = postList
+    private var posts = postList
     private val clickListener = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -24,6 +24,11 @@ class PostAdapter(postList: ArrayList<PostData>, listener: OnClickListener): Rec
 
     override fun getItemCount(): Int {
         return posts.size
+    }
+
+    fun setUsersList(list: ArrayList<PostData>){
+        posts = list
+        notifyDataSetChanged()
     }
 
     inner class MainViewHolder(binding: PostViewBinding): RecyclerView.ViewHolder(binding.root) {
