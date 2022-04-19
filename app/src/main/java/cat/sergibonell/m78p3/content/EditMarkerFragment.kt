@@ -58,9 +58,9 @@ class EditMarkerFragment: Fragment() {
         val title = binding.titleText.text.toString()
         val description = binding.descriptionText.text.toString()
         val category = binding.spinner.selectedItem.toString()
-        val data = PostData(title=title, description=description, category=category, photoDirectory="", latitude=oldData.latitude, longitude=oldData.longitude)
+        val data = PostData(id=oldData.id, title=title, description=description, category=category, photoDirectory="", latitude=oldData.latitude, longitude=oldData.longitude)
 
-        viewModel.updateMarker(data, oldData)
+        viewModel.editMarker(data)
         findNavController().navigate(R.id.action_editMarkerFragment_to_markerListFragment)
     }
 }

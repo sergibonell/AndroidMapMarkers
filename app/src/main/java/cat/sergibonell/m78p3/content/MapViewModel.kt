@@ -40,16 +40,18 @@ class MapViewModel: ViewModel() {
         )
     }
 
-    fun deleteMarker(post: PostData) {
-        val list = getList()
-        list.remove(post)
-        markerListLive.value = list
+    fun editMarker(marker: PostData) {
+        db.collection("markers").document(marker.id!!).set(
+            hashMapOf("title" to marker.title,
+                "description" to marker.description,
+                "latitude" to marker.latitude,
+                "longitude" to marker.longitude,
+                "photoDirectory" to marker.photoDirectory,
+                "category" to marker.category)
+        )
     }
 
-    fun updateMarker(new: PostData, old: PostData) {
-        val list = getList()
-        list.remove(old)
-        list.add(new)
-        markerListLive.value = list
+    fun deleteMarker(post: PostData) {
+        db.collection("markers").document(post.id!!).delete()
     }
 }

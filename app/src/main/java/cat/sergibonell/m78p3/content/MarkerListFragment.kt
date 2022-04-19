@@ -93,11 +93,13 @@ class MarkerListFragment: Fragment(), OnClickListener {
                     return
                 }
                 for(dc: DocumentChange in value?.documentChanges!!){
-                    if(dc.type == DocumentChange.Type.ADDED){
-                        val newUser = dc.document.toObject(PostData::class.java)
-                        newUser.id = dc.document.id
+                    val newUser = dc.document.toObject(PostData::class.java)
+                    newUser.id = dc.document.id
+
+                    if(dc.type == DocumentChange.Type.ADDED)
                         postList.add(newUser)
-                    }
+                    else if(dc.type == DocumentChange.Type.REMOVED)
+                        postList.remove(newUser)
                 }
                 postAdapter.setUsersList(postList)
             }
