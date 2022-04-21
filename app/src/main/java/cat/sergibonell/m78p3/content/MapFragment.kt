@@ -40,6 +40,9 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMapBinding.inflate(layoutInflater)
+
+        viewModel.sessionEmail = activity?.intent?.getStringExtra("email").toString()
+
         createMap()
         return binding.root
     }
@@ -117,7 +120,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     }
 
     fun observeMarkers(){
-        db.collection("markers").addSnapshotListener(object: EventListener<QuerySnapshot> {
+        db.collection(viewModel.sessionEmail).addSnapshotListener(object: EventListener<QuerySnapshot> {
             override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                 if(error != null){
                     Log.e("Firestore error", error.message.toString())

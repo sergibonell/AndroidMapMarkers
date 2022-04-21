@@ -9,25 +9,41 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95689804-de32-4a4b-afb0-e965089f31b2" name="Default Changelist" comment="Load and create markers from Firestore&#10;(DIRTY, TRY TO JUST LOAD ONCE)">
+    <list default="true" id="95689804-de32-4a4b-afb0-e965089f31b2" name="Default Changelist" comment="Add, delete, edit markers">
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/7.0.2/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.idea/workspace.xml" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/EditMarkerFragment.kt" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/EditMarkerFragment.kt" afterDir="false" />
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/MapFragment.kt" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/MapFragment.kt" afterDir="false" />
       <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/MapViewModel.kt" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/MapViewModel.kt" afterDir="false" />
       <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/MarkerListFragment.kt" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/MarkerListFragment.kt" afterDir="false" />
+      <change beforePath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/login/LoginFragment.kt" beforeDir="false" afterPath="/dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/login/LoginFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/EditMarkerFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/EditMarkerFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/MapFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/MapFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/MapViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/MapViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/MarkerListFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/MarkerListFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/login/LoginFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/login/LoginFragment.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +94,7 @@
         <option value="Kotlin Data Class" />
         <option value="layoutResourceFile" />
         <option value="Kotlin Interface" />
+        <option value="Class" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -131,8 +148,8 @@
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
-      <command value="gradle signingReport " />
       <command value="gradle signingReport" />
+      <command value="gradle signingReport " />
     </option>
   </component>
   <component name="RunManager" selected="Android App.app">
@@ -408,6 +425,18 @@
     <MESSAGE value="Added list layout&#10;Save markers in ViewModel" />
     <MESSAGE value="Added unversioned" />
     <MESSAGE value="Load and create markers from Firestore&#10;(DIRTY, TRY TO JUST LOAD ONCE)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Load and create markers from Firestore&#10;(DIRTY, TRY TO JUST LOAD ONCE)" />
+    <MESSAGE value="Add, delete, edit markers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add, delete, edit markers" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file:///dades/dades/SergiBonell/Software/android-projects/m78p3_2/app/src/main/java/cat/sergibonell/m78p3/content/MapViewModel.kt</url>
+          <line>20</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

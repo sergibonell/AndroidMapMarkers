@@ -86,7 +86,7 @@ class MarkerListFragment: Fragment(), OnClickListener {
     }
 
     private fun eventChangeListener() {
-        db.collection("markers").addSnapshotListener(object: EventListener<QuerySnapshot> {
+        db.collection(viewModel.sessionEmail).addSnapshotListener(object: EventListener<QuerySnapshot> {
             override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                 if(error != null){
                     Log.e("Firestore error", error.message.toString())

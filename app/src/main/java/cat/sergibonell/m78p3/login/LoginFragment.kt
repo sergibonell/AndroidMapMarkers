@@ -1,6 +1,8 @@
 package cat.sergibonell.m78p3.login
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ class LoginFragment: Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
+    private lateinit var sharedPrefs: SharedPreferences
+    private var emailUsed = "default"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,8 +32,13 @@ class LoginFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sharedPrefs = activity?.getPreferences(Context.MODE_PRIVATE)!!
+
         loginButton = binding.loginButton
         registerButton = binding.registerButton
+
+        binding.emailField.setText(sharedPrefs.getString("lastEmail", ""))
 
         loginButton.setOnClickListener {
             loginUser()
@@ -53,7 +62,11 @@ class LoginFragment: Fragment() {
             signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if(it.isSuccessful){
-                        val emailLogged = it.result?.user?.email
+                        with (sharedPrefs.edit()) {
+                            putString("lastEmail", email)
+                            apply()
+                        }
+                        emailUsed = email
                         goToMap()
                     }
                     else{
@@ -74,7 +87,7 @@ class LoginFragment: Fragment() {
             createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if(it.isSuccessful){
-                        val emailLogged = it.result?.user?.email
+                        emailUsed = email
                         goToMap()
                     }
                     else{
@@ -88,6 +101,7 @@ class LoginFragment: Fragment() {
 
     fun goToMap(){
         val intent = Intent(context, ContentActivity::class.java)
+        intent.putExtra("email", emailUsed)
         startActivity(intent)
     }
 }

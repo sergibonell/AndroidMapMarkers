@@ -1,5 +1,6 @@
 package cat.sergibonell.m78p3.content
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,12 +9,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MapViewModel: ViewModel() {
     private val db = FirebaseFirestore.getInstance()
-    var markerListLive: MutableLiveData<ArrayList<PostData>> = MutableLiveData()
+    var sessionEmail = ""
 
     fun getList(category: String? = null): ArrayList<PostData>{
         var list = ArrayList<PostData>()
 
-        db.collection("markers")
+        db.collection(sessionEmail)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -30,7 +31,7 @@ class MapViewModel: ViewModel() {
     }
 
     fun addMarker(marker: PostData) {
-        db.collection("markers").add(
+        db.collection(sessionEmail).add(
             hashMapOf("title" to marker.title,
                 "description" to marker.description,
                 "latitude" to marker.latitude,
@@ -41,7 +42,7 @@ class MapViewModel: ViewModel() {
     }
 
     fun editMarker(marker: PostData) {
-        db.collection("markers").document(marker.id!!).set(
+        db.collection(sessionEmail).document(marker.id!!).set(
             hashMapOf("title" to marker.title,
                 "description" to marker.description,
                 "latitude" to marker.latitude,
@@ -52,6 +53,6 @@ class MapViewModel: ViewModel() {
     }
 
     fun deleteMarker(post: PostData) {
-        db.collection("markers").document(post.id!!).delete()
+        db.collection(sessionEmail).document(post.id!!).delete()
     }
 }
