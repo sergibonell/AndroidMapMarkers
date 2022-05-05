@@ -57,7 +57,7 @@ class LoginFragment: Fragment() {
         val email = binding.emailField.text.toString()
         val password = binding.passwordField.text.toString()
 
-        if(email != "" && password != ""){
+        if(email.isNotEmpty() && password.isNotEmpty()){
             FirebaseAuth.getInstance().
             signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
@@ -82,7 +82,7 @@ class LoginFragment: Fragment() {
         val email = binding.emailField.text.toString()
         val password = binding.passwordField.text.toString()
 
-        if(email != "" && password != ""){
+        if(email.isNotEmpty() && password.isNotEmpty()){
             FirebaseAuth.getInstance().
             createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener {

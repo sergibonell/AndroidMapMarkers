@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="cat.sergibonell.m78p3.content.MapFragment"
+        android:name="cat.sergibonell.m78p3.content.map.MapFragment"
         android:label="MapFragment" >
         <action
             android:id="@+id/action_mapFragment_to_addMarkerFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/addMarkerFragment"
-        android:name="cat.sergibonell.m78p3.content.AddMarkerFragment"
+        android:name="cat.sergibonell.m78p3.content.detail.AddMarkerFragment"
         android:label="AddMarkerFragment" >
         <action
             android:id="@+id/action_addMarkerFragment_to_cameraFragment"
@@ -25,22 +25,21 @@
         <action
             android:id="@+id/action_addMarkerFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
-        <argument
-            android:name="coords"
-            app:argType="com.google.android.gms.maps.model.LatLng"
-            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="cat.sergibonell.m78p3.content.CameraFragment"
+        android:name="cat.sergibonell.m78p3.content.detail.CameraFragment"
         android:label="CameraFragment" >
         <action
             android:id="@+id/action_cameraFragment_to_addMarkerFragment"
             app:destination="@id/addMarkerFragment" />
+        <action
+            android:id="@+id/action_cameraFragment_to_editMarkerFragment"
+            app:destination="@id/editMarkerFragment" />
     </fragment>
     <fragment
         android:id="@+id/markerListFragment"
-        android:name="cat.sergibonell.m78p3.content.MarkerListFragment"
+        android:name="cat.sergibonell.m78p3.content.map.MarkerListFragment"
         android:label="MarkerListFragment" >
         <action
             android:id="@+id/action_markerListFragment_to_editMarkerFragment"
@@ -51,13 +50,13 @@
     </fragment>
     <fragment
         android:id="@+id/editMarkerFragment"
-        android:name="cat.sergibonell.m78p3.content.EditMarkerFragment"
+        android:name="cat.sergibonell.m78p3.content.detail.EditMarkerFragment"
         android:label="EditMarkerFragment" >
-        <argument
-            android:name="data"
-            app:argType="cat.sergibonell.m78p3.data.PostData" />
         <action
             android:id="@+id/action_editMarkerFragment_to_markerListFragment"
             app:destination="@id/markerListFragment" />
+        <action
+            android:id="@+id/action_editMarkerFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
 </navigation>
