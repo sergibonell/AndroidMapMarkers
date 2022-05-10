@@ -14,6 +14,12 @@
         <action
             android:id="@+id/action_mapFragment_to_markerListFragment"
             app:destination="@id/markerListFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_viewMarkerFragment"
+            app:destination="@id/viewMarkerFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_editMarkerFragment"
+            app:destination="@id/editMarkerFragment" />
     </fragment>
     <fragment
         android:id="@+id/addMarkerFragment"
@@ -58,5 +64,13 @@
         <action
             android:id="@+id/action_editMarkerFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewMarkerFragment"
+        android:name="cat.sergibonell.m78p3.content.detail.ViewMarkerFragment"
+        android:label="ViewMarkerFragment" >
+        <action
+            android:id="@+id/action_viewMarkerFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
 </navigation>

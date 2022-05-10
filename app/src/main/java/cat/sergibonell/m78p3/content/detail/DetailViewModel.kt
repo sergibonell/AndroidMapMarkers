@@ -3,10 +3,13 @@ package cat.sergibonell.m78p3.content.detail
 import android.os.Debug
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import cat.sergibonell.m78p3.data.PostData
 import com.google.type.LatLng
 
 class DetailViewModel: ViewModel() {
     var edit = false
+    var localPhoto = ""
+
     var currentId = ""
     var currentLatitude = 0.0
     var currentLongitude = 0.0
@@ -14,10 +17,10 @@ class DetailViewModel: ViewModel() {
     var currentDescription = ""
     var currentCategory = ""
     var currentPhoto = ""
-    var localPhoto = ""
 
     fun clearAll(){
         edit = false
+        localPhoto = ""
         currentId = ""
         currentLatitude = 0.0
         currentLongitude = 0.0
@@ -25,17 +28,16 @@ class DetailViewModel: ViewModel() {
         currentDescription = ""
         currentCategory = ""
         currentPhoto = ""
-        localPhoto = ""
     }
 
-    fun setData(id: String, latitude: Double, longitude: Double, title: String, description: String, category: String, photo: String){
-        currentId = id
-        currentLatitude = latitude
-        currentLongitude = longitude
-        currentTitle = title
-        currentDescription = description
-        currentCategory = category
-        currentPhoto = photo
+    fun setData(data: PostData){
+        currentId = data.id!!
+        currentLatitude = data.latitude!!
+        currentLongitude = data.longitude!!
+        currentTitle = data.title!!
+        currentDescription = data.description!!
+        currentCategory = data.category!!
+        currentPhoto = data.photoDirectory!!
     }
 
     fun printAll(){

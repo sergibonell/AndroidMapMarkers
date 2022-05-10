@@ -50,6 +50,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_cameraFragment_to_editMarkerFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -66,6 +71,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_editMarkerFragment_to_cameraFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_editMarkerFragment_to_markerListFragment">
                               <value>
                                 <LayoutPositions />
@@ -97,6 +107,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_mapFragment_to_viewMarkerFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -119,6 +134,27 @@
                               </value>
                             </entry>
                             <entry key="action_markerListFragment_to_mapFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="viewMarkerFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-330" />
+                            <option name="y" value="66" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_viewMarkerFragment_to_mapFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

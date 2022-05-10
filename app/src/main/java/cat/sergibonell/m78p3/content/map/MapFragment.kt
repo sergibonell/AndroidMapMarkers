@@ -28,7 +28,7 @@ import com.google.firebase.firestore.*
 
 const val REQUEST_CODE_LOCATION = 100
 
-class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapLongClickListener {
+class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowLongClickListener {
     lateinit var binding: FragmentMapBinding
     private val viewModel: MapViewModel by activityViewModels()
     private val detailViewModel: DetailViewModel by activityViewModels()
@@ -139,7 +139,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
                         val newUser = dc.document.toObject(PostData::class.java)
                         val position = LatLng(newUser.latitude!!, newUser.longitude!!)
                         val option = MarkerOptions().position(position).title(newUser.title)
-                        map.addMarker(option)
+                        map.addMarker(option)?.tag = dc.document.id
                     }
                 }
             }
@@ -149,14 +149,27 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     fun setListeners(){
         map.setOnMapLongClickListener(this)
         map.setOnInfoWindowClickListener(this)
+        map.setOnInfoWindowLongClickListener(this)
         binding.floatingActionButton.setOnClickListener { findNavController().navigate(R.id.action_mapFragment_to_markerListFragment) }
     }
 
     override fun onInfoWindowClick(marker: Marker) {
-        Toast.makeText(context, "Pressed", Toast.LENGTH_LONG).show()
+        val post = viewModel.getMarker(marker.tag.toString())
+        detailViewModel.setData(post)
+        findNavController().navigate(MapFragmentDirections.actionMapFragmentToViewMarkerFragment())
     }
 
     override fun onMapLongClick(pos: LatLng) {
         createCustomMarker(pos)
     }
+
+    override fun onInfoWindowLongClick(marker: Marker) {
+        val post = viewModel.getMarker(marker.tag.toString())
+        detailViewModel.setData(post)
+        detailViewModel.edit = true
+
+        findNavController().navigate(R.id.action_mapFragment_to_editMarkerFragment)
+    }
+
+
 }

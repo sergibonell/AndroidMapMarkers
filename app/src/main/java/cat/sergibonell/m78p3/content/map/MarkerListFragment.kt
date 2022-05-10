@@ -78,7 +78,7 @@ class MarkerListFragment: Fragment(), OnClickListener {
     }
 
     override fun onClickEdit(post: PostData) {
-        detailViewModel.setData(post.id!!, post.latitude!!, post.longitude!!, post.title!!, post.description!!, post.category!!, post.photoDirectory!!)
+        detailViewModel.setData(post)
         detailViewModel.edit = true
 
         findNavController().navigate(MarkerListFragmentDirections.actionMarkerListFragmentToEditMarkerFragment())

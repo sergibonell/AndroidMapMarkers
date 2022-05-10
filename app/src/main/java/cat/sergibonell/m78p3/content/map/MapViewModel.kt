@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import cat.sergibonell.m78p3.data.PostData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,7 +48,7 @@ class MapViewModel: ViewModel() {
     }
 
     fun editMarker(marker: PostData) {
-        deletePicture(Uri.parse(marker.photoDirectory))
+        deletePicture(marker.id!!)
         marker.photoDirectory = uploadPicture(Uri.parse(marker.photoDirectory))
 
         db.collection(sessionEmail).document(marker.id!!).set(
@@ -61,8 +62,20 @@ class MapViewModel: ViewModel() {
     }
 
     fun deleteMarker(marker: PostData) {
-        deletePicture(Uri.parse(marker.photoDirectory))
+        deletePicture(marker.id!!)
         db.collection(sessionEmail).document(marker.id!!).delete()
+    }
+
+    fun getMarker(id: String): PostData {
+        val task = db.collection(sessionEmail).document(id).get()
+
+        while (!task.isSuccessful)
+            continue
+
+        val data = task.result.toObject(PostData::class.java)!!
+        data.id = id
+
+        return data
     }
 
     private fun uploadPicture(uri: Uri): String {
@@ -80,8 +93,10 @@ class MapViewModel: ViewModel() {
         return storage.path
     }
 
-    private fun deletePicture(uri: Uri) {
-        val storage = FirebaseStorage.getInstance().reference.child(uri.toString())
+    private fun deletePicture(id: String) {
+        val path = getMarker(id).photoDirectory
+        val storage = FirebaseStorage.getInstance().reference.child(path!!)
+
         storage.delete()
             .addOnSuccessListener {
                 Log.d("PICTURE", "Deleted")
