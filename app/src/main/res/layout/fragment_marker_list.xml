@@ -11,6 +11,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tag2"
+        android:checked="true"
         android:text="TAG1"
         />
     <CheckBox
@@ -20,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/tag1"
         app:layout_constraintEnd_toStartOf="@id/tag3"
+        android:checked="true"
         android:text="TAG2"
         />
     <CheckBox
@@ -29,6 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tag2"
+        android:checked="true"
         android:text="TAG3"
         />
 
