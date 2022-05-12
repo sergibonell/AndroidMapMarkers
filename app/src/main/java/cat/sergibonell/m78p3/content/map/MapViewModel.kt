@@ -2,9 +2,11 @@ package cat.sergibonell.m78p3.content.map
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cat.sergibonell.m78p3.data.PostData
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
@@ -13,25 +15,49 @@ import kotlin.collections.ArrayList
 
 class MapViewModel: ViewModel() {
     private val db = FirebaseFirestore.getInstance()
+    var categories = mutableListOf<String>("Landscape", "Monument", "People")
     var sessionEmail = ""
+    val postLiveData = MutableLiveData<List<PostData>>()
 
-    fun getList(category: String? = null): ArrayList<PostData>{
-        var list = ArrayList<PostData>()
-
-        db.collection(sessionEmail)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val newUser = document.toObject(PostData::class.java)
-                    newUser.id = document.id
-                    list.add(newUser)
+    fun addEventListener(){
+        db.collection(sessionEmail).whereIn("category", categories).addSnapshotListener(object:
+            EventListener<QuerySnapshot> {
+            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                if(error != null){
+                    Log.e("Firestore error", error.message.toString())
+                    return
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("DOCUMENTS", "Error getting documents: ", exception)
-            }
+                val list = ArrayList<PostData>()
+                for(dc: DocumentChange in value?.documentChanges!!){
+                    val newUser = dc.document.toObject(PostData::class.java)
+                    newUser.id = dc.document.id
 
-        return list
+                    if(dc.type == DocumentChange.Type.ADDED)
+                        list.add(newUser)
+                    else if(dc.type == DocumentChange.Type.REMOVED)
+                        list.remove(newUser)
+                }
+                postLiveData.value = list
+            }
+        })
+    }
+
+    fun getList(){
+        val list = ArrayList<PostData>()
+
+        val task = db.collection(sessionEmail).whereIn("category", categories).get()
+
+        while (!task.isSuccessful)
+            continue
+
+        for (document in task.result) {
+            val newUser = document.toObject(PostData::class.java)
+            newUser.id = document.id
+            list.add(newUser)
+        }
+
+        Log.d("LIST", list.toString())
+        postLiveData.value = list
     }
 
     fun addMarker(marker: PostData) {

@@ -48,6 +48,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         binding = FragmentMapBinding.inflate(layoutInflater)
 
         viewModel.sessionEmail = activity?.intent?.getStringExtra("email").toString()
+        viewModel.addEventListener()
 
         createMap()
         return binding.root
@@ -108,19 +109,6 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         }
     }
 
-    /*fun createMarker(coordinates: LatLng){
-        val markerOptions = MarkerOptions().position(coordinates).title("ITB")
-
-        map.addMarker(markerOptions)
-        viewModel.markerList.observe(viewLifecycleOwner, Observer { list ->
-            list.add(PostData("", "", "", coordinates))
-        })
-
-        map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
-            5000, null)
-    }*/
-
     fun createCustomMarker(coordinates: LatLng){
         detailViewModel.currentLatitude = coordinates.latitude
         detailViewModel.currentLongitude = coordinates.longitude
@@ -128,22 +116,14 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     }
 
     fun observeMarkers(){
-        db.collection(viewModel.sessionEmail).addSnapshotListener(object: EventListener<QuerySnapshot> {
-            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                if(error != null){
-                    Log.e("Firestore error", error.message.toString())
-                    return
-                }
-                for(dc: DocumentChange in value?.documentChanges!!){
-                    if(dc.type == DocumentChange.Type.ADDED){
-                        val newUser = dc.document.toObject(PostData::class.java)
-                        val position = LatLng(newUser.latitude!!, newUser.longitude!!)
-                        val option = MarkerOptions().position(position).title(newUser.title)
-                        map.addMarker(option)?.tag = dc.document.id
-                    }
-                }
+        viewModel.postLiveData.observe(viewLifecycleOwner){
+            map.clear()
+            for(post in it){
+                val position = LatLng(post.latitude!!, post.longitude!!)
+                val option = MarkerOptions().position(position).title(post.title)
+                map.addMarker(option)?.tag = post.id
             }
-        })
+        }
     }
 
     fun setListeners(){

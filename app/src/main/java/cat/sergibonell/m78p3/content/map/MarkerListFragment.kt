@@ -3,6 +3,7 @@ package cat.sergibonell.m78p3.content.map
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.CheckBox
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -25,20 +26,18 @@ class MarkerListFragment: Fragment(), OnClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var postList: ArrayList<PostData>
     private lateinit var postAdapter: PostAdapter
-    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMarkerListBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -52,25 +51,22 @@ class MarkerListFragment: Fragment(), OnClickListener {
         recyclerView = binding.recyclerView
         setupRecyclerView(arrayListOf())
         postList = arrayListOf<PostData>()
-        eventChangeListener()
+        observeMarkers()
+
+        binding.tag1.setOnClickListener { onCheckboxClicked(it) }
+        binding.tag2.setOnClickListener { onCheckboxClicked(it) }
+        binding.tag3.setOnClickListener { onCheckboxClicked(it) }
+    }
+
+    private fun observeMarkers() {
+        viewModel.postLiveData.observe(viewLifecycleOwner) {
+            postAdapter.setUsersList(it as ArrayList<PostData>)
+        }
     }
 
     override fun onResume() {
         super.onResume()
         detailViewModel.clearAll()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.options_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.show_all -> {setupRecyclerView(viewModel.getList())}
-            R.id.show_favs -> {setupRecyclerView(viewModel.getList("People"))}
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onClickDelete(post: PostData) {
@@ -93,26 +89,30 @@ class MarkerListFragment: Fragment(), OnClickListener {
         }
     }
 
-    private fun eventChangeListener() {
-        db.collection(viewModel.sessionEmail).addSnapshotListener(object: EventListener<QuerySnapshot> {
-            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                if(error != null){
-                    Log.e("Firestore error", error.message.toString())
-                    return
-                }
-                for(dc: DocumentChange in value?.documentChanges!!){
-                    val newUser = dc.document.toObject(PostData::class.java)
-                    newUser.id = dc.document.id
+    fun onCheckboxClicked(view: View) {
+        if (view is CheckBox) {
+            val checked: Boolean = view.isChecked
+            var string = ""
 
-                    if(dc.type == DocumentChange.Type.ADDED)
-                        postList.add(newUser)
-                    else if(dc.type == DocumentChange.Type.REMOVED)
-                        postList.remove(newUser)
-                }
-                postAdapter.setUsersList(postList)
+            when (view.id) {
+                R.id.tag1 -> string = "Landscape"
+                R.id.tag2 -> string = "Monument"
+                R.id.tag3 -> string = "People"
             }
-        })
+
+            if (checked) {
+                viewModel.categories.add(string)
+            }
+            else if(viewModel.categories.size > 1) {
+                viewModel.categories.remove(string)
+            }
+            else{
+                view.isChecked = true;
+            }
+        }
+
+        viewModel.getList()
+
+        Log.d("CATEGORIES", viewModel.categories.toString())
     }
-
-
 }
