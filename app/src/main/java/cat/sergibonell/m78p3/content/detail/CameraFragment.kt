@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -29,17 +30,20 @@ import java.util.concurrent.Executors
 
 class CameraFragment: Fragment() {
     lateinit var binding: FragmentCameraBinding
+    private val detailViewModel: DetailViewModel by activityViewModels()
+
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var imageUri: Uri
+
+    private lateinit var photoButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCameraBinding.inflate(layoutInflater)
 
         if(allPermissionsGranted())
@@ -47,13 +51,19 @@ class CameraFragment: Fragment() {
         else
             ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
 
-        binding.cameraCaptureButton.setOnClickListener {
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        photoButton = binding.cameraCaptureButton
+
+        photoButton.setOnClickListener {
             takePhoto()
         }
+
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
-
-        return binding.root
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
@@ -71,7 +81,7 @@ class CameraFragment: Fragment() {
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFuture.addListener(Runnable {
+        cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder().build().also {
                 it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
@@ -82,7 +92,7 @@ class CameraFragment: Fragment() {
                 cameraProvider.unbindAll()
                 cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
             } catch(exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                Log.e(TAG, exc.toString())
             }
         }, ContextCompat.getMainExecutor(requireContext()))
     }

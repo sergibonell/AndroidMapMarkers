@@ -2,12 +2,13 @@ package cat.sergibonell.m78p3.content.map
 
 import android.net.Uri
 import android.util.Log
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import cat.sergibonell.m78p3.content.detail.DetailViewModel
 import cat.sergibonell.m78p3.data.PostData
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.*
@@ -15,7 +16,7 @@ import kotlin.collections.ArrayList
 
 class MapViewModel: ViewModel() {
     private val db = FirebaseFirestore.getInstance()
-    var categories = mutableListOf<String>("Landscape", "Monument", "People")
+    var categories = mutableListOf("Landscape", "Monument", "People")
     var sessionEmail = ""
     val postLiveData = MutableLiveData<List<PostData>>()
 
@@ -27,41 +28,28 @@ class MapViewModel: ViewModel() {
                     Log.e("Firestore error", error.message.toString())
                     return
                 }
-                val list = ArrayList<PostData>()
-                for(dc: DocumentChange in value?.documentChanges!!){
-                    val newUser = dc.document.toObject(PostData::class.java)
-                    newUser.id = dc.document.id
-
-                    if(dc.type == DocumentChange.Type.ADDED)
-                        list.add(newUser)
-                    else if(dc.type == DocumentChange.Type.REMOVED)
-                        list.remove(newUser)
-                }
-                postLiveData.value = list
+                getList()
             }
         })
     }
 
     fun getList(){
-        val list = ArrayList<PostData>()
+        db.collection(sessionEmail).whereIn("category", categories).get().addOnSuccessListener {
+            val list = ArrayList<PostData>()
 
-        val task = db.collection(sessionEmail).whereIn("category", categories).get()
+            for (document in it) {
+                val newUser = document.toObject(PostData::class.java)
+                newUser.id = document.id
+                list.add(newUser)
+            }
 
-        while (!task.isSuccessful)
-            continue
-
-        for (document in task.result) {
-            val newUser = document.toObject(PostData::class.java)
-            newUser.id = document.id
-            list.add(newUser)
+            postLiveData.value = list
         }
-
-        Log.d("LIST", list.toString())
-        postLiveData.value = list
     }
 
     fun addMarker(marker: PostData) {
-        marker.photoDirectory = uploadPicture(Uri.parse(marker.photoDirectory))
+        if(marker.photoDirectory?.isNotEmpty()!!)
+            marker.photoDirectory = uploadPicture(Uri.parse(marker.photoDirectory))
 
         db.collection(sessionEmail).add(
             hashMapOf("title" to marker.title,
@@ -74,8 +62,9 @@ class MapViewModel: ViewModel() {
     }
 
     fun editMarker(marker: PostData) {
+        if(marker.photoDirectory?.isNotEmpty()!!)
+            marker.photoDirectory = uploadPicture(Uri.parse(marker.photoDirectory))
         deletePicture(marker.id!!)
-        marker.photoDirectory = uploadPicture(Uri.parse(marker.photoDirectory))
 
         db.collection(sessionEmail).document(marker.id!!).set(
             hashMapOf("title" to marker.title,
@@ -110,25 +99,15 @@ class MapViewModel: ViewModel() {
         val fileName = formatter.format(now)
         val storage = FirebaseStorage.getInstance().getReference("images/$fileName")
         storage.putFile(uri)
-            .addOnSuccessListener {
-                Log.d("PICTURE", "Uploaded")
-            }
-            .addOnFailureListener {
-                Log.d("PICTURE", "Not Uploaded")
-            }
+
         return storage.path
     }
 
     private fun deletePicture(id: String) {
         val path = getMarker(id).photoDirectory
-        val storage = FirebaseStorage.getInstance().reference.child(path!!)
-
-        storage.delete()
-            .addOnSuccessListener {
-                Log.d("PICTURE", "Deleted")
-            }
-            .addOnFailureListener {
-                Log.d("PICTURE", "Not Deleted")
-            }
+        if(path?.isNotEmpty()!!) {
+            val storage = FirebaseStorage.getInstance().reference.child(path)
+            storage.delete()
+        }
     }
 }

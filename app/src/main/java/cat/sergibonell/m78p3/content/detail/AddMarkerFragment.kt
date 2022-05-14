@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,12 @@ class AddMarkerFragment: Fragment() {
     private val viewModel: MapViewModel by activityViewModels()
     private val detailViewModel: DetailViewModel by activityViewModels()
 
+    private lateinit var titleText: EditText
+    private lateinit var descriptionText: EditText
+    private lateinit var categorySpinner: Spinner
+    private lateinit var cameraButton: ImageButton
+    private lateinit var doneButton: Button
+
     override fun onResume() {
         super.onResume()
         detailViewModel.printAll()
@@ -28,15 +35,21 @@ class AddMarkerFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddMarkerBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.imageButton.setOnClickListener { openCamera() }
-        binding.button.setOnClickListener { saveMarker() }
+        titleText = binding.titleText
+        descriptionText = binding.descriptionText
+        categorySpinner = binding.spinner
+        cameraButton = binding.imageButton
+        doneButton = binding.button
+
+        cameraButton.setOnClickListener { openCamera() }
+        doneButton.setOnClickListener { saveMarker() }
 
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -44,35 +57,52 @@ class AddMarkerFragment: Fragment() {
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinner.adapter = adapter
+            categorySpinner.adapter = adapter
         }
 
         if(detailViewModel.localPhoto != "")
-            binding.imageButton.setImageURI(Uri.parse(detailViewModel.localPhoto))
-        binding.titleText.setText(detailViewModel.currentTitle)
-        binding.descriptionText.setText(detailViewModel.currentDescription)
+            setPhoto()
+
+        titleText.setText(detailViewModel.currentTitle)
+        descriptionText.setText(detailViewModel.currentDescription)
         val index = resources.getStringArray(R.array.category_list).indexOf(detailViewModel.currentCategory)
-        binding.spinner.setSelection(index)
+        categorySpinner.setSelection(index)
     }
 
     fun openCamera(){
-        detailViewModel.currentTitle = binding.titleText.text.toString()
-        detailViewModel.currentCategory = binding.spinner.selectedItem.toString()
-        detailViewModel.currentDescription = binding.descriptionText.text.toString()
+        detailViewModel.currentTitle = titleText.text.toString()
+        detailViewModel.currentDescription = descriptionText.text.toString()
+        detailViewModel.currentCategory = categorySpinner.selectedItem.toString()
 
         findNavController().navigate(R.id.action_addMarkerFragment_to_cameraFragment)
     }
 
     fun saveMarker(){
-        val title = binding.titleText.text.toString()
-        val description = binding.descriptionText.text.toString()
-        val category = binding.spinner.selectedItem.toString()
-        val photo = detailViewModel.localPhoto
-        val latitude = detailViewModel.currentLatitude
-        val longitude = detailViewModel.currentLongitude
-        val data = PostData(title=title, description=description, category=category, photoDirectory=photo, latitude=latitude, longitude=longitude)
+        if(binding.titleText.text.isNotBlank()) {
+            val title = titleText.text.toString()
+            val description = descriptionText.text.toString()
+            val category = categorySpinner.selectedItem.toString()
+            val photo = detailViewModel.localPhoto
+            val latitude = detailViewModel.currentLatitude
+            val longitude = detailViewModel.currentLongitude
+            val data = PostData(
+                title = title,
+                description = description,
+                category = category,
+                photoDirectory = photo,
+                latitude = latitude,
+                longitude = longitude
+            )
 
-        viewModel.addMarker(data)
-        findNavController().navigate(R.id.action_addMarkerFragment_to_mapFragment)
+            viewModel.addMarker(data)
+            findNavController().navigate(R.id.action_addMarkerFragment_to_mapFragment)
+        }else {
+            Toast.makeText(requireContext(), getString(R.string.empty_title), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun setPhoto(){
+        cameraButton.setImageURI(Uri.parse(detailViewModel.localPhoto))
+        cameraButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.fui_transparent))
     }
 }

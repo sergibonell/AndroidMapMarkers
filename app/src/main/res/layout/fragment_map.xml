@@ -18,6 +18,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:focusable="true"
+        android:backgroundTint="@color/accentLight"
         android:src="@drawable/ic_baseline_list_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

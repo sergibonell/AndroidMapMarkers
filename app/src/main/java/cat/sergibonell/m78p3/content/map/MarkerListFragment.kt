@@ -15,8 +15,6 @@ import cat.sergibonell.m78p3.R
 import cat.sergibonell.m78p3.content.detail.DetailViewModel
 import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.FragmentMarkerListBinding
-import com.google.firebase.firestore.*
-import com.google.type.LatLng
 
 
 class MarkerListFragment: Fragment(), OnClickListener {
@@ -80,6 +78,12 @@ class MarkerListFragment: Fragment(), OnClickListener {
         findNavController().navigate(MarkerListFragmentDirections.actionMarkerListFragmentToEditMarkerFragment())
     }
 
+    override fun onClickView(post: PostData) {
+        detailViewModel.setData(post)
+
+        findNavController().navigate(MarkerListFragmentDirections.actionMarkerListFragmentToViewMarkerFragment())
+    }
+
     fun setupRecyclerView(posts: ArrayList<PostData>){
         postAdapter = PostAdapter(posts, this)
         binding.recyclerView.apply {
@@ -107,7 +111,7 @@ class MarkerListFragment: Fragment(), OnClickListener {
                 viewModel.categories.remove(string)
             }
             else{
-                view.isChecked = true;
+                view.isChecked = true
             }
         }
 

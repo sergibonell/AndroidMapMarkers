@@ -1,21 +1,17 @@
 package cat.sergibonell.m78p3.content.detail
 
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import cat.sergibonell.m78p3.R
-import cat.sergibonell.m78p3.content.map.MapViewModel
-import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.FragmentAddMarkerBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
@@ -24,18 +20,30 @@ class ViewMarkerFragment: Fragment() {
     lateinit var binding: FragmentAddMarkerBinding
     private val detailViewModel: DetailViewModel by activityViewModels()
 
+    private lateinit var titleText: EditText
+    private lateinit var descriptionText: EditText
+    private lateinit var categorySpinner: Spinner
+    private lateinit var cameraButton: ImageButton
+    private lateinit var doneButton: Button
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddMarkerBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener { updateMarker() }
+        titleText = binding.titleText
+        descriptionText = binding.descriptionText
+        categorySpinner = binding.spinner
+        cameraButton = binding.imageButton
+        doneButton = binding.button
+
+        doneButton.setOnClickListener { updateMarker() }
 
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -46,15 +54,20 @@ class ViewMarkerFragment: Fragment() {
             binding.spinner.adapter = adapter
         }
 
-        getPhoto(detailViewModel.currentPhoto)
-        binding.titleText.setText(detailViewModel.currentTitle)
-        binding.descriptionText.setText(detailViewModel.currentDescription)
-        val index = resources.getStringArray(R.array.category_list).indexOf(detailViewModel.currentCategory)
-        binding.spinner.setSelection(index)
+        if(detailViewModel.localPhoto != "")
+            setPhoto()
+        else if(detailViewModel.currentPhoto != "")
+            getPhoto(detailViewModel.currentPhoto)
 
-        binding.titleText.inputType = InputType.TYPE_NULL
-        binding.descriptionText.inputType = InputType.TYPE_NULL
-        binding.spinner.isEnabled = false
+
+        titleText.setText(detailViewModel.currentTitle)
+        descriptionText.setText(detailViewModel.currentDescription)
+        val index = resources.getStringArray(R.array.category_list).indexOf(detailViewModel.currentCategory)
+        categorySpinner.setSelection(index)
+
+        titleText.inputType = InputType.TYPE_NULL
+        descriptionText.inputType = InputType.TYPE_NULL
+        categorySpinner.isEnabled = false
     }
 
     fun updateMarker(){
@@ -65,13 +78,18 @@ class ViewMarkerFragment: Fragment() {
         val storage = FirebaseStorage.getInstance().reference.child(uri)
         val localFile = File.createTempFile("temp", "")
         storage.getFile(localFile).addOnSuccessListener {
-            Toast.makeText(requireContext(), "Downloaded image!", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), getString(R.string.download_success), Toast.LENGTH_SHORT)
                 .show()
             detailViewModel.localPhoto = localFile.absolutePath
-            binding.imageButton.setImageURI(Uri.parse(detailViewModel.localPhoto))
+            setPhoto()
         }.addOnFailureListener{
-            Toast.makeText(requireContext(), "Error downloading image!", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), getString(R.string.download_error), Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+
+    fun setPhoto(){
+        cameraButton.setImageURI(Uri.parse(detailViewModel.localPhoto))
+        cameraButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.fui_transparent))
     }
 }

@@ -1,10 +1,8 @@
 package cat.sergibonell.m78p3.content.detail
 
-import android.os.Debug
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import cat.sergibonell.m78p3.data.PostData
-import com.google.type.LatLng
 
 class DetailViewModel: ViewModel() {
     var edit = false

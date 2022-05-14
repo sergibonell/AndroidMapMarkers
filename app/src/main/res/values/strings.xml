@@ -1,8 +1,22 @@
 <resources>
-    <string name="app_name">m78p3</string>
+    <string name="app_name">Snapmap</string>
     <string name="maps_api_key" templateMergeStrategy="preserve" translatable="false">
        AIzaSyBuGP3kCzhULVH8jxcVXQfGIW990IbhdtY
    </string>
+    <string name="empty_title">Title can\'t be empty!</string>
+    <string name="download_success">Downloaded image!</string>
+    <string name="download_error">Error downloading image!</string>
+    <string name="enable_location">Ves a la pantalla de permisos de l’aplicació i habilita el de Geolocalització</string>
+    <string name="accept_location_permission">Accepta els permisos de geolocalització</string>
+    <string name="title_placeholder">Title</string>
+    <string name="description_placeholder">Description</string>
+    <string name="done_button">DONE</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="post_view_placeholder">PROVA</string>
     <string-array name="category_list">
         <item>Landscape</item>
         <item>Monument</item>

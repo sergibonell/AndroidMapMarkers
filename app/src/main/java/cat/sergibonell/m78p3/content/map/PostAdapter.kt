@@ -50,7 +50,9 @@ class PostAdapter(postList: ArrayList<PostData>, listener: OnClickListener): Rec
             editButton.setOnClickListener {
                 clickListener.onClickEdit(postData)
             }
+            titleTextView.setOnClickListener {
+                clickListener.onClickView(postData)
+            }
         }
     }
-
 }

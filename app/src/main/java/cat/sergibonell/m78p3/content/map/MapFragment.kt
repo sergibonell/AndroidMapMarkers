@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import cat.sergibonell.m78p3.R
 import cat.sergibonell.m78p3.content.detail.DetailViewModel
-import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.FragmentMapBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,7 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.firestore.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 const val REQUEST_CODE_LOCATION = 100
 
@@ -32,8 +30,9 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
     lateinit var binding: FragmentMapBinding
     private val viewModel: MapViewModel by activityViewModels()
     private val detailViewModel: DetailViewModel by activityViewModels()
+
     lateinit var map: GoogleMap
-    private val db = FirebaseFirestore.getInstance()
+    lateinit var listButton: FloatingActionButton
 
     override fun onResume() {
         super.onResume()
@@ -44,7 +43,7 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMapBinding.inflate(layoutInflater)
 
         viewModel.sessionEmail = activity?.intent?.getStringExtra("email").toString()
@@ -52,6 +51,11 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
 
         createMap()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        listButton = binding.floatingActionButton
     }
 
     fun createMap(){
@@ -64,49 +68,6 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         setListeners()
         observeMarkers()
         enableLocation()
-    }
-
-    // COPIED CODE
-
-    private fun isLocationPermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun enableLocation(){
-        if(!::map.isInitialized) return
-        if(!isLocationPermissionGranted())
-            requestLocationPermission()
-        else
-            map.isMyLocationEnabled = true
-    }
-
-    private fun requestLocationPermission(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)){
-            Toast.makeText(requireContext(), "Ves a la pantalla de permisos de l’aplicació i habilita el de Geolocalització", Toast.LENGTH_SHORT).show()
-        }
-        else{
-            ActivityCompat.requestPermissions(requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE_LOCATION
-            )
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
-        when(requestCode){
-            REQUEST_CODE_LOCATION -> if(grantResults.isNotEmpty() &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                map.isMyLocationEnabled = true
-            }
-            else{
-                Toast.makeText(requireContext(), "Accepta els permisos de geolocalització",
-                    Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     fun createCustomMarker(coordinates: LatLng){
@@ -130,17 +91,17 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         map.setOnMapLongClickListener(this)
         map.setOnInfoWindowClickListener(this)
         map.setOnInfoWindowLongClickListener(this)
-        binding.floatingActionButton.setOnClickListener { findNavController().navigate(R.id.action_mapFragment_to_markerListFragment) }
+        listButton.setOnClickListener { findNavController().navigate(R.id.action_mapFragment_to_markerListFragment) }
+    }
+
+    override fun onMapLongClick(pos: LatLng) {
+        createCustomMarker(pos)
     }
 
     override fun onInfoWindowClick(marker: Marker) {
         val post = viewModel.getMarker(marker.tag.toString())
         detailViewModel.setData(post)
         findNavController().navigate(MapFragmentDirections.actionMapFragmentToViewMarkerFragment())
-    }
-
-    override fun onMapLongClick(pos: LatLng) {
-        createCustomMarker(pos)
     }
 
     override fun onInfoWindowLongClick(marker: Marker) {
@@ -151,5 +112,46 @@ class MapFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickLi
         findNavController().navigate(R.id.action_mapFragment_to_editMarkerFragment)
     }
 
+    // ----------COPIED CODE-----------
 
+    private fun isLocationPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun enableLocation(){
+        if(!::map.isInitialized) return
+        if(!isLocationPermissionGranted())
+            requestLocationPermission()
+        else
+            map.isMyLocationEnabled = true
+    }
+
+    private fun requestLocationPermission(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)){
+            Toast.makeText(requireContext(), getString(R.string.enable_location), Toast.LENGTH_SHORT).show()
+        }
+        else{
+            ActivityCompat.requestPermissions(requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE_LOCATION
+            )
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
+        when(requestCode){
+            REQUEST_CODE_LOCATION -> if(grantResults.isNotEmpty() &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                map.isMyLocationEnabled = true
+            }
+            else{
+                Toast.makeText(requireContext(), getString(R.string.accept_location_permission),
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

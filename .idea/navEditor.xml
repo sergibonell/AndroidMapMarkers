@@ -65,8 +65,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="347" />
-                            <option name="y" value="433" />
+                            <option name="x" value="332" />
+                            <option name="y" value="437" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -98,6 +98,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_mapFragment_to_addMarkerFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_mapFragment_to_editMarkerFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -148,8 +153,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-330" />
-                            <option name="y" value="66" />
+                            <option name="x" value="-219" />
+                            <option name="y" value="3" />
                           </Point>
                         </option>
                         <option name="myPositions">
