@@ -10,12 +10,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import cat.sergibonell.m78p3.ImageSelectListener
 import cat.sergibonell.m78p3.R
 import cat.sergibonell.m78p3.content.map.MapViewModel
 import cat.sergibonell.m78p3.data.PostData
 import cat.sergibonell.m78p3.databinding.FragmentAddMarkerBinding
 
-class AddMarkerFragment: Fragment() {
+class AddMarkerFragment: Fragment(), ImageSelectListener {
     lateinit var binding: FragmentAddMarkerBinding
     private val viewModel: MapViewModel by activityViewModels()
     private val detailViewModel: DetailViewModel by activityViewModels()
@@ -74,7 +75,8 @@ class AddMarkerFragment: Fragment() {
         detailViewModel.currentDescription = descriptionText.text.toString()
         detailViewModel.currentCategory = categorySpinner.selectedItem.toString()
 
-        findNavController().navigate(R.id.action_addMarkerFragment_to_cameraFragment)
+        //findNavController().navigate(R.id.action_addMarkerFragment_to_cameraFragment)
+        MediaSelectDialogFragment(this).show(childFragmentManager, MediaSelectDialogFragment.TAG)
     }
 
     fun saveMarker(){
@@ -104,5 +106,9 @@ class AddMarkerFragment: Fragment() {
     fun setPhoto(){
         cameraButton.setImageURI(Uri.parse(detailViewModel.localPhoto))
         cameraButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.fui_transparent))
+    }
+
+    override fun onImageSelect() {
+        setPhoto()
     }
 }

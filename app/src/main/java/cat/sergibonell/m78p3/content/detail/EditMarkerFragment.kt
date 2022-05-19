@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import cat.sergibonell.m78p3.ImageSelectListener
 import cat.sergibonell.m78p3.R
 import cat.sergibonell.m78p3.content.map.MapViewModel
 import cat.sergibonell.m78p3.data.PostData
@@ -17,7 +18,7 @@ import cat.sergibonell.m78p3.databinding.FragmentAddMarkerBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
-class EditMarkerFragment: Fragment() {
+class EditMarkerFragment: Fragment(), ImageSelectListener {
     lateinit var binding: FragmentAddMarkerBinding
     private val viewModel: MapViewModel by activityViewModels()
     private val detailViewModel: DetailViewModel by activityViewModels()
@@ -73,7 +74,8 @@ class EditMarkerFragment: Fragment() {
         detailViewModel.currentDescription = descriptionText.text.toString()
         detailViewModel.currentCategory = categorySpinner.selectedItem.toString()
 
-        findNavController().navigate(R.id.action_editMarkerFragment_to_cameraFragment)
+        //findNavController().navigate(R.id.action_editMarkerFragment_to_cameraFragment)
+        MediaSelectDialogFragment(this).show(childFragmentManager, MediaSelectDialogFragment.TAG)
     }
 
     fun updateMarker(){
@@ -119,5 +121,9 @@ class EditMarkerFragment: Fragment() {
     fun setPhoto(){
         cameraButton.setImageURI(Uri.parse(detailViewModel.localPhoto))
         cameraButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.fui_transparent))
+    }
+
+    override fun onImageSelect() {
+        setPhoto()
     }
 }

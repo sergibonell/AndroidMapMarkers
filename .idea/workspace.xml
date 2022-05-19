@@ -6,26 +6,35 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="PICTURE" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95689804-de32-4a4b-afb0-e965089f31b2" name="Default Changelist" comment="App with style and functionality&#10;Landscape layouts pending">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-land/fragment_add_marker.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-land/fragment_camera.xml" afterDir="false" />
+    <list default="true" id="95689804-de32-4a4b-afb0-e965089f31b2" name="Default Changelist" comment="Ladscape layouts done">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/ImageSelectListener.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/detail/MediaSelectDialogFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_baseline_camera_alt_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_baseline_photo_library_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/file_selection_dialog.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_camera.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_camera.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_marker_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_marker_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/detail/AddMarkerFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/detail/AddMarkerFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/detail/EditMarkerFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cat/sergibonell/m78p3/content/detail/EditMarkerFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/content_nav_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/content_nav_graph.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,12 +83,12 @@
       <list>
         <option value="navigationResourceFile" />
         <option value="Kotlin Data Class" />
-        <option value="layoutResourceFile" />
-        <option value="Kotlin Interface" />
         <option value="Class" />
-        <option value="Kotlin Class" />
         <option value="valueResourceFile" />
         <option value="resourceFile" />
+        <option value="layoutResourceFile" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
       </list>
     </option>
   </component>
@@ -402,7 +411,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652565876979</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Ladscape layouts done">
+      <created>1652570815623</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1652570815623</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -434,7 +450,8 @@
     <MESSAGE value="Add, edit and delete markers (and images)" />
     <MESSAGE value="Added all functionality&#10;Filter pending" />
     <MESSAGE value="App with style and functionality&#10;Landscape layouts pending" />
-    <option name="LAST_COMMIT_MESSAGE" value="App with style and functionality&#10;Landscape layouts pending" />
+    <MESSAGE value="Ladscape layouts done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ladscape layouts done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -19,11 +19,6 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_addMarkerFragment_to_cameraFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="action_addMarkerFragment_to_mapFragment">
                               <value>
                                 <LayoutPositions />
@@ -71,11 +66,6 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_editMarkerFragment_to_cameraFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="action_editMarkerFragment_to_markerListFragment">
                               <value>
                                 <LayoutPositions />
@@ -139,6 +129,32 @@
                               </value>
                             </entry>
                             <entry key="action_markerListFragment_to_mapFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_markerListFragment_to_viewMarkerFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="mediaSelectDialogFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-305" />
+                            <option name="y" value="430" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_mediaSelectDialogFragment_to_cameraFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

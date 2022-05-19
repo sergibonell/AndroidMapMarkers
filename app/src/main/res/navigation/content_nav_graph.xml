@@ -76,4 +76,8 @@
             android:id="@+id/action_viewMarkerFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/mediaSelectDialogFragment"
+        android:name="cat.sergibonell.m78p3.content.detail.MediaSelectDialogFragment"
+        android:label="MediaSelectDialogFragment" />
 </navigation>
